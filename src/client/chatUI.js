@@ -26,7 +26,7 @@ import '../../resources/sass/style.scss';
  */
 var ChatUI = function (socket) {
     var socket = socket;
-    var chatInput = $('textarea#message');
+    var chatInput = $('textarea#message-input');
     var chatForm = $('.chat-form');
     var chatSend = $('.chat-send');
     var chatWindow = $('#chat-container');
