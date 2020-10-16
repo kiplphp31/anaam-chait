@@ -74,11 +74,11 @@ var ChatUI = function (socket) {
         chatSend.on('click', () => this.sendMessage());
         chatInput.on('keydown', (e) => {
             setTimeout(function() {
-                // cssText.css({"height": "0px", "font-size": "200%"})
-                cssText.style.cssText = 'height:0px';
-                var height = Math.min(20 * 5, cssText.scrollHeight);
+                // chatInput.css({"height": "0px", "font-size": "200%"})
+                chatInput[0].style.cssText = 'height:0px';
+                var height = Math.min(20 * 5, chatInput[0].scrollHeight);
                 div.style.cssText = 'height:' + height + 'px';
-                cssText.style.cssText = 'height:' + height + 'px';
+                chatInput[0].style.cssText = 'height:' + height + 'px';
             },0);
         });
         chatInput.on('keypress',(e) => {
@@ -87,7 +87,7 @@ var ChatUI = function (socket) {
                 return false;
             }
             if (e.ctrlKey && e.shiftKey && e.keyCode == 86 ) {
-                chatInput.focus();
+                chatInput.trigger('focus');
                 document.execCommand("paste");
             }
         });
