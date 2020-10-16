@@ -41,7 +41,15 @@ var ChatUI = function (socket) {
     var filePathMap = {};
 
     var div = document.querySelector('#ta-frame');
-
+    function autosize() {
+        setTimeout(function() {
+            // chatInput.css({"height": "0px", "font-size": "200%"})
+            chatInput[0].style.cssText = 'height:0px';
+            var height = Math.min((20 * 15) + 5, chatInput[0].scrollHeight);
+            div.style.cssText = 'height:' + height + 'px';
+            chatInput[0].style.cssText = 'height:' + height + 'px';
+        },0);
+    }
     // Add fontawesome libraries
     library.add(fas, far);
     dom.watch();
@@ -73,14 +81,15 @@ var ChatUI = function (socket) {
         // Add event listeners to elements
         chatSend.on('click', () => this.sendMessage());
         chatInput.on('keydown', (e) => {
-            setTimeout(function() {
-                // chatInput.css({"height": "0px", "font-size": "200%"})
-                chatInput[0].style.cssText = 'height:0px';
-                var height = Math.min(20 * 5, chatInput[0].scrollHeight);
-                div.style.cssText = 'height:' + height + 'px';
-                chatInput[0].style.cssText = 'height:' + height + 'px';
-            },0);
+            autosize();
         });
+        chatInput.on("paste", function(e){
+            // access the clipboard using the api
+            // var pastedData = e.originalEvent.clipboardData.getData('text');
+            // alert(pastedData);
+            autosize();
+
+        } );
         chatInput.on('keypress',(e) => {
             if (e.key == 'Enter' && !e.shiftKey) {
                 this.sendMessage();
