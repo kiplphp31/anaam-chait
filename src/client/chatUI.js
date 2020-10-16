@@ -41,18 +41,6 @@ var ChatUI = function (socket) {
     var filePathMap = {};
 
     var div = document.querySelector('#ta-frame');
-    var ta =  document.querySelector('textarea#message');
-
-    ta.addEventListener('keydown', autosize);
-
-    function autosize() {
-        setTimeout(function() {
-            ta. style.cssText = 'height:0px'; // 文字を削除した場合にscrollHeightを縮めるためにこれが必要
-            var height = Math.min(20 * 5, ta.scrollHeight);
-            div.style.cssText = 'height:' + height + 'px';
-            ta. style.cssText = 'height:' + height + 'px';
-        },0);
-    }
 
     // Add fontawesome libraries
     library.add(fas, far);
@@ -83,8 +71,17 @@ var ChatUI = function (socket) {
         });
 
         // Add event listeners to elements
-        chatSend.click(() => this.sendMessage());
-        chatInput.keypress((e) => {
+        chatSend.on('click', () => this.sendMessage());
+        chatInput.on('keydown', (e) => {
+            setTimeout(function() {
+                // cssText.css({"height": "0px", "font-size": "200%"})
+                cssText.style.cssText = 'height:0px';
+                var height = Math.min(20 * 5, cssText.scrollHeight);
+                div.style.cssText = 'height:' + height + 'px';
+                cssText.style.cssText = 'height:' + height + 'px';
+            },0);
+        });
+        chatInput.on('keypress',(e) => {
             if (e.key == 'Enter' && !e.shiftKey) {
                 this.sendMessage();
                 return false;
@@ -94,8 +91,8 @@ var ChatUI = function (socket) {
                 document.execCommand("paste");
             }
         });
-        chatForm.submit((e) => e.preventDefault());
-        chatScroll.click(() => this.scrollToBottom());
+        chatForm.on('submit', (e) => e.preventDefault());
+        chatScroll.on('click', () => this.scrollToBottom());
 
         // Add scroll listeners to scrollbar
         chatWindow.on('ps-y-reach-end', () => {
@@ -114,7 +111,7 @@ var ChatUI = function (socket) {
 
         fileInput.dropify();
 
-        sendFile.click((e) => {
+        sendFile.on('click', (e) => {
             let file = this.getFile();
             this.sendFile(file);
         });
