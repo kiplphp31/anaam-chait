@@ -26,7 +26,7 @@ import '../../resources/sass/style.scss';
  */
 var ChatUI = function (socket) {
     var socket = socket;
-    var chatInput = $('.chat-msg');
+    var chatInput = $('textarea#message');
     var chatForm = $('.chat-form');
     var chatSend = $('.chat-send');
     var chatWindow = $('#chat-container');
@@ -39,6 +39,20 @@ var ChatUI = function (socket) {
     var tempFileName = '';
     var fileReader = null;
     var filePathMap = {};
+
+    var div = document.querySelector('#ta-frame');
+    var ta =  document.querySelector('textarea#message');
+
+    ta.addEventListener('keydown', autosize);
+
+    function autosize() {
+        setTimeout(function() {
+            ta. style.cssText = 'height:0px'; // 文字を削除した場合にscrollHeightを縮めるためにこれが必要
+            var height = Math.min(20 * 5, ta.scrollHeight);
+            div.style.cssText = 'height:' + height + 'px';
+            ta. style.cssText = 'height:' + height + 'px';
+        },0);
+    }
 
     // Add fontawesome libraries
     library.add(fas, far);
@@ -71,8 +85,13 @@ var ChatUI = function (socket) {
         // Add event listeners to elements
         chatSend.click(() => this.sendMessage());
         chatInput.keypress((e) => {
-            if (e.key == 'Enter') {
+            if (e.key == 'Enter' && !e.shiftKey) {
                 this.sendMessage();
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 86 ) {
+                chatInput.focus();
+                document.execCommand("paste");
             }
         });
         chatForm.submit((e) => e.preventDefault());
