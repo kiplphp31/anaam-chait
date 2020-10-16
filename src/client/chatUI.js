@@ -142,7 +142,8 @@ var ChatUI = function (socket) {
 
     this.appendMessage = (data) => {
         let user = utils.escapeHtml(data.user);
-        let msg = utils.escapeHtml(data.message);
+        // let msg = utils.escapeHtml(data.message);
+        let msg = data.message
         let time = utils.escapeHtml(data.time);
         let color = utils.escapeHtml(data.color);
         let el = data.user == 'self' ?
