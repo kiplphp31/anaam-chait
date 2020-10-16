@@ -153,6 +153,7 @@
             @extend .my-0;
             @extend .mr-1;
             word-wrap: break-word;
+            white-space: pre-wrap;
         }
 
         .chat-sender {

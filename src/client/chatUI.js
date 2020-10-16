@@ -147,8 +147,8 @@ var ChatUI = function (socket) {
         let time = utils.escapeHtml(data.time);
         let color = utils.escapeHtml(data.color);
         let el = data.user == 'self' ?
-            `<div class="chat-bubble chat-bubble-self hidden"><p class="chat-text">${msg}</p><small class="chat-time">${time}</small></div>` :
-            `<div class="chat-bubble chat-bubble-other hidden"><small class="chat-sender" style="color:${color}">${user}</small><p class="chat-text">${msg}</p><small class="chat-time">${time}</small></div>`;
+            `<div class="chat-bubble chat-bubble-self hidden"><p class="chat-text">${msg}</p><br/><small class="chat-time">${time}</small></div>` :
+            `<div class="chat-bubble chat-bubble-other hidden"><small class="chat-sender" style="color:${color}">${user}</small><p class="chat-text">${msg}</p><br/><small class="chat-time">${time}</small></div>`;
 
         chatWindow.append(el);
 
